@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estimation of Obesity Levels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div class="container mx-auto">
+      <div
+        class="px-4 py-6 inline-flex flex-col justify-center items-center w-full min-h-screen"
+      >
+        <div class="mb-8 w-full">
+          <h1 class="text-center text-3xl font-bold">
+            Estimation of Obesity Levels
+          </h1>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 w-full">
+          <div
+            class="bg-white p-6 rounded-lg shadow-md col-span-3 lg:{{ 'col-span-2' if risk else 'col-span-3' }} text-justify"
+          >
+            <h2 class="text-xl font-semibold mb-4">MASUKKAN DATA</h2>
+            <form method="POST" action="">
+              <div class="grid grid-cols-2 gap-4 w-full mb-4">
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Jenis Kelamin</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="Gender" value="0" />
+                      Perempuan
+                    </label>
+                    <label>
+                      <input type="radio" name="Gender" value="1" />
+                      Laki-laki
+                    </label>
+                  </div>
+                  {% if errors.Gender %}
+                  <p class="text-red-500 text-xs italic">{{ errors.Gender }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Umur (tahun)</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      name="Age"
+                      type="number"
+                      placeholder="Contoh: 25"
+                      class="w-full mt-1 px-4 py-2 border rounded-md bg-gray-100"
+                    />
+                  </div>
+                  {% if errors.Age %}
+                  <p class="text-red-500 text-xs italic">{{ errors.Age }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Tinggi (m)</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      name="Height"
+                      type="number"
+                      step="0.01"
+                      placeholder="Contoh: 1.55"
+                      class="w-full mt-1 px-4 py-2 border rounded-md bg-gray-100"
+                    />
+                  </div>
+                  {% if errors.Height %}
+                  <p class="text-red-500 text-xs italic">{{ errors.Height }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Berat (kg)</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm">
+                    <input
+                      name="Weight"
+                      type="number"
+                      step="0.01"
+                      placeholder="Contoh: 65.5"
+                      class="w-full mt-1 px-4 py-2 border rounded-md bg-gray-100"
+                    />
+                  </div>
+                  {% if errors.Weight %}
+                  <p class="text-red-500 text-xs italic">{{ errors.Weight }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Apakah ada anggota keluarga yang menderita atau menderita
+                    kelebihan berat badan?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="family_history" value="0" />
+                      Tidak
+                    </label>
+                    <label>
+                      <input type="radio" name="family_history" value="1" />
+                      Ya
+                    </label>
+                  </div>
+                  {% if errors.family_history %}
+                  <p class="text-red-500 text-xs italic">
+                    {{ errors.family_history }}
+                  </p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Apakah Anda sering mengonsumsi makanan berkalori
+                    tinggi?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="FAVC" value="0" />
+                      Tidak
+                    </label>
+                    <label>
+                      <input type="radio" name="FAVC" value="1" />
+                      Ya
+                    </label>
+                  </div>
+                  {% if errors.FAVC %}
+                  <p class="text-red-500 text-xs italic">{{ errors.FAVC }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Apakah Anda biasanya makan sayuran dalam makanan
+                    Anda?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="FCVC" value="1" />
+                      Tidak Pernah
+                    </label>
+                    <label>
+                      <input type="radio" name="FCVC" value="2" />
+                      Kadang-kadang
+                    </label>
+                    <label>
+                      <input type="radio" name="FCVC" value="3" />
+                      Selalu
+                    </label>
+                  </div>
+                  {% if errors.FCVC %}
+                  <p class="text-red-500 text-xs italic">{{ errors.FCVC }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Berapa banyak makanan utama yang Anda makan setiap
+                    hari?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="NCP" value="1" />
+                      Antara 1-2 kali
+                    </label>
+                    <label>
+                      <input type="radio" name="NCP" value="2" />
+                      3 kali
+                    </label>
+                    <label>
+                      <input type="radio" name="NCP" value="3" />
+                      Lebih dari 3 kali
+                    </label>
+                  </div>
+                  {% if errors.NCP %}
+                  <p class="text-red-500 text-xs italic">{{ errors.NCP }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Apakah Anda makan makanan apa pun di antara waktu
+                    makan?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="CAEC" value="0" />
+                      Tidak
+                    </label>
+                    <label>
+                      <input type="radio" name="CAEC" value="1" />
+                      Kadang-kadang
+                    </label>
+                    <label>
+                      <input type="radio" name="CAEC" value="2" />
+                      Sering
+                    </label>
+                    <label>
+                      <input type="radio" name="CAEC" value="3" />
+                      Selalu
+                    </label>
+                  </div>
+                  {% if errors.CAEC %}
+                  <p class="text-red-500 text-xs italic">{{ errors.CAEC }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Anda merokok?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="SMOKE" value="0" />
+                      Tidak
+                    </label>
+                    <label>
+                      <input type="radio" name="SMOKE" value="1" />
+                      Ya
+                    </label>
+                  </div>
+                  {% if errors.SMOKE %}
+                  <p class="text-red-500 text-xs italic">{{ errors.SMOKE }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Berapa banyak air yang Anda minum setiap hari?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="CH20" value="1" />
+                      Kurang dari 1 liter
+                    </label>
+                    <label>
+                      <input type="radio" name="CH20" value="2" />
+                      Antara 1-2 liter
+                    </label>
+                    <label>
+                      <input type="radio" name="CH20" value="3" />
+                      Lebih dari 2 liter
+                    </label>
+                  </div>
+                  {% if errors.CH2O %}
+                  <p class="text-red-500 text-xs italic">{{ errors.CH2O }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Apakah Anda memantau kalori yang Anda makan setiap
+                    hari?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="SCC" value="0" />
+                      Tidak
+                    </label>
+                    <label>
+                      <input type="radio" name="SCC" value="1" />
+                      Ya
+                    </label>
+                  </div>
+                  {% if errors.SCC %}
+                  <p class="text-red-500 text-xs italic">{{ errors.SCC }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Seberapa sering Anda melakukan aktivitas fisik?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="FAF" value="0" />
+                      Tidak Pernah
+                    </label>
+                    <label>
+                      <input type="radio" name="FAF" value="1" />
+                      1-2 hari seminggu
+                    </label>
+                    <label>
+                      <input type="radio" name="FAF" value="2" />
+                      2-4 hari seminggu
+                    </label>
+                    <label>
+                      <input type="radio" name="FAF" value="3" />
+                      4-5 hari seminggu
+                    </label>
+                  </div>
+                  {% if errors.FAF %}
+                  <p class="text-red-500 text-xs italic">{{ errors.FAF }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Berapa lama Anda menggunakan perangkat teknologi seperti
+                    telepon seluler, video game, televisi, komputer dan
+                    lain-lain?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="TUE" value="0" />
+                      0-2 jam
+                    </label>
+                    <label>
+                      <input type="radio" name="TUE" value="1" />
+                      3-5 jam
+                    </label>
+                    <label>
+                      <input type="radio" name="TUE" value="2" />
+                      Lebih dari 5 jam
+                    </label>
+                  </div>
+                  {% if errors.TUE %}
+                  <p class="text-red-500 text-xs italic">{{ errors.TUE }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Seberapa sering Anda minum alkohol?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="CALC" value="0" />
+                      Tidak
+                    </label>
+                    <label>
+                      <input type="radio" name="CALC" value="1" />
+                      Kadang-kadang
+                    </label>
+                    <label>
+                      <input type="radio" name="CALC" value="2" />
+                      Sering
+                    </label>
+                    <label>
+                      <input type="radio" name="CALC" value="3" />
+                      Selalu
+                    </label>
+                  </div>
+                  {% if errors.CALC %}
+                  <p class="text-red-500 text-xs italic">{{ errors.CALC }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="col-span-2 xl:col-span-1">
+                  <label class="block text-sm font-medium text-zinc-700"
+                    >Transportasi apa yang biasa Anda gunakan?</label
+                  >
+                  <div class="mt-1 flex rounded-md shadow-sm space-x-4">
+                    <label>
+                      <input type="radio" name="MTRANS" value="0" />
+                      Sepeda
+                    </label>
+                    <label>
+                      <input type="radio" name="MTRANS" value="1" />
+                      Sepeda Motor
+                    </label>
+                    <label>
+                      <input type="radio" name="MTRANS" value="2" />
+                      Jalan Kaki
+                    </label>
+                    <label>
+                      <input type="radio" name="MTRANS" value="3" />
+                      Mobil
+                    </label>
+                    <label>
+                      <input type="radio" name="MTRANS" value="4" />
+                      Kendaraan Umum
+                    </label>
+                  </div>
+                  {% if errors.MTRANS %}
+                  <p class="text-red-500 text-xs italic">{{ errors.MTRANS }}</p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="flex justify-end gap-2">
+                <button
+                  type="button"
+                  id="clear-button"
+                  class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5"
+                >
+                  Bersihkan
+                </button>
+                <button
+                  type="submit"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
+                >
+                  Prediksi
+                </button>
+              </div>
+            </form>
+          </div>
+
+          {% if errors.prediction %}
+          <p class="text-red-500 text-xs italic">{{ errors.prediction }}</p>
+          {% endif %} {% if risk %}
+          <div
+            class="bg-white p-6 rounded-lg shadow-md col-span-3 lg:col-span-1 text-center h-fit"
+          >
+            <h2 class="text-xl font-semibold mb-4">HASIL</h2>
+            <p class="mb-2">
+              Berdasarkan data yang Anda masukkan, tingkat obesitas Anda adalah:
+            </p>
+            <p class="text-lg font-bold">{{ risk }}</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("clear-button")
+        .addEventListener("click", function () {
+          const inputs = document.querySelectorAll('input[type="number"]');
+          inputs.forEach((input) => (input.value = ""));
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  </body>
+</html>
